@@ -12,8 +12,6 @@ const serve = require('koa-static2');
 
 const webapp = require('./routes/webapp');
 const api = require('./routes/api');
-const signpptv = require('./routes/signpptv');
-const pre_analysis = require('./routes/pre_analysis');
 const commonMiddle = require('./middlewares/commonMiddle');
 
 const logger = require('./lib/logger.js');
@@ -26,7 +24,6 @@ app.use(convert(logger.access));
 // 三个静态目录
 app.use(serve("public", './public'));
 app.use(serve("static", './webapp/static'));
-app.use(serve(".well-known", './.well-known'));
 // 模版引擎
 app.use(views(path.resolve(__dirname, './views'), {
   map: {
@@ -38,8 +35,6 @@ app.use(views(path.resolve(__dirname, './views'), {
 // router
 router.use('/webapp', commonMiddle, webapp.routes(), webapp.allowedMethods());
 router.use('/v1', commonMiddle, api.routes(), api.allowedMethods());
-router.use('/signpptv', commonMiddle, signpptv.routes(), signpptv.allowedMethods());
-router.use('/pre_analysis', commonMiddle, pre_analysis.routes(), pre_analysis.allowedMethods());
 app.use(router.routes(), router.allowedMethods());
 
 // error

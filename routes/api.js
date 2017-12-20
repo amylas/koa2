@@ -1,7 +1,5 @@
 const router = require('koa-router')();
-const analysis = require('../controllers/analysisController');
 //路由
-router.use('/pre_analysis', analysis.routes(), analysis.allowedMethods());
 
 router.get('/activity/:id', async (ctx, next) => {
   console.log(`page ${ctx.params.id} was loaded!`);
