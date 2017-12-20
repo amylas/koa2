@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no"/>
+  <title>测试调试页面</title>
+</head>
+<style>
+  html{
+    font-size: 62.5%;
+  }
+  a,input{
+    padding:0;
+    margin:0;
+  }
+  input{
+    margin: 0;
+    -webkit-appearance: none;
+    width: 100%;
+    padding: 5px 2%;
+    border: 1px solid #ddd;
+    display: block;
+    border-radius: 5px;
+    line-height: 28px;
+    font-size: 14px;
+    box-sizing: border-box;
+    color: #333;
+    margin-bottom:23px;
+  }
+  .btn{
+    line-height: 40px;
+    background: #f7941e;
+    color: #fff;
+    display: block;
+    width: 92%;
+    text-align: center;
+    font-size: 1.8rem;
+    border-radius: 4px;
+    text-decoration: none;
+    margin:0 auto;
+  }
+</style>
+<body>
+UUID:<br>
+  <input id="UUID" value="">
+Authorization:<br>
+  <input id="Authorization" value="">
+url:<br>
+  <input id="url" value="">
+<a href="javascript:void(0)" id="btnOpen" class="btn">打开调试页面</a>
+<script src="{{staticDomain}}/public/js/jquery-3.1.1.min.js"></script>
+<script>
+  $(function () {
+
+    var test_data = localStorage.getItem("test_data") ;
+    var clicked = 0;
+    test_data = test_data && JSON.parse(test_data);
+    if(test_data){
+      $("#UUID").val(test_data.UUID);
+      $("#Authorization").val(test_data.Authorization);
+      $("#url").val(test_data.url);
+    }
+    var getPage = function () {
+        if(clicked>0) return;
+         clicked = 1;
+         test_data ={
+          UUID:$("#UUID").val(),
+          Authorization:$("#Authorization").val(),
+          url:$("#url").val()
+        };
+        localStorage.test_data = JSON.stringify(test_data);
+        $.ajax({
+          type: 'get',
+          data: {
+          },
+          beforeSend:function (request) {
+            request.setRequestHeader("UUID", test_data.UUID);
+            request.setRequestHeader("Authorization", test_data.Authorization);
+          },
+          url: test_data.url
+        }).done(function (msg) {
+          document.write(msg);
+          clicked = 0;
+        }).fail(function (e) {
+          console.error(e)
+        });
+    };
+    $("#btnOpen").click(getPage)
+  });
+
+</script>
+</body>
+</html>

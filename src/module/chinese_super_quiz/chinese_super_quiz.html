@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+  <title>中超竞猜</title>
+  <style>
+
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script type="text/javascript">
+  var globalParams = {
+    apiDomain: "{{apiDomain}}",
+    Authorization: "{{{Authorization}}}",
+    UUID: "{{{UUID}}}"
+  };
+  // User Agent
+  window.browers = {};
+  var ua = navigator.userAgent.toLowerCase();
+  browers.iPad = ua.match(/ipad/);
+  browers.iPhone = ua.match(/iphone/);
+  browers.Android = ua.match(/android/);
+  browers.iOS = ua.match(/ipad|iphone|ios/);
+  browers.ie = ua.match(/iemobile/);
+  isWifi = ua.match(/nettype\/wifi|technology\/wifi/);
+  force_ssl = ua.match(/Android (5|6)/i);
+  is_ios_6 = ua.match(/iOS 6/i);
+  is_liveapp = ua.match(/LiveApp/i);
+  var ua_dqd = ua.match(/NewsApp\/([\d\.]+)/i);
+  var version = ua_dqd ? parseInt(ua_dqd[1].replace(eval('/\\./ig'), '')) : null;
+  if(browers.iOS && version && version < 500){//版本5.0判断
+    location.replace("dongdong:///news/303188");
+  }else if(browers.Android && version && version < 97) {
+    location.replace("dongdong:///news/303188")
+  }
+</script>
+</body>
+</html>

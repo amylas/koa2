@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1, user-scalable=no"/>
+  <title>活动页面实例</title>
+</head>
+<body>
+test page
+<script src="{{staticDomain}}/public/js/zepto.min.js"></script>
+<script>
+  var globalParams = {
+    apiDomain: "{{apiDomain}}",
+    Authorization: "{{Authorization}}",
+    UUID: "{{UUID}}"
+  };
+  // User Agent
+  window.browers = {};
+  var ua = navigator.userAgent.toLowerCase();
+  browers.iPad = ua.match(/ipad/);
+  browers.iPhone = ua.match(/iphone/);
+  browers.Android = ua.match(/android/);
+  browers.iOS = ua.match(/ipad|iphone|ios/);
+  browers.ie = ua.match(/iemobile/);
+  browers.isWifi = ua.match(/nettype\/wifi|technology\/wifi/);
+  browers.force_ssl = ua.match(/Android (5|6)/i);
+  browers.is_ios_6 = ua.match(/iOS 6/i);
+  browers.is_liveapp = ua.match(/LiveApp/i);
+
+  var app_ua = ua.match(/NewsApp\/([\d\.]+)/i);
+  var version = app_ua ? parseInt(app_ua[1].replace(eval('/\\./ig'), '')) : null;
+
+  //ajax>>
+  $.getJSON('/v2/vote/result/match/2283188', function(data){
+    console.log(data)
+  });
+  $.ajax({
+    type:'POST',
+    url:'/v2/vote/match/2283188',
+    data:{
+      id:1,
+      name:2,
+    },
+    headers:{
+      UUID:'uuuid'
+    },
+    success: function(data){
+      console.log(data.message)
+    },
+  });
+
+  //connectWebViewJavascriptBridge>>
+  function connectWebViewJavascriptBridge(callback) {
+    if (window.WebViewJavascriptBridge) {
+      callback(WebViewJavascriptBridge)
+    } else {
+      document.addEventListener('WebViewJavascriptBridgeReady', function () {
+        callback(WebViewJavascriptBridge)
+      }, false)
+    }
+  }
+  connectWebViewJavascriptBridge(function(bridge) {
+    bridge.init(function(message, responseCallback) {});
+  })
+</script>
+</body>
+</html>
